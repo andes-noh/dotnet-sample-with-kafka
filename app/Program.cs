@@ -3,7 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dotenv.net;
 
+
 using sample;
+using GeneralProducer.Handlers;
+using GeneralConsumer.Handlers;
 
 DotEnv.Load();
 
@@ -28,28 +31,17 @@ using IHost host = Host
 
             // })
             .AddHttpClient()
-            // .AddSingleton<>()
+            .AddHostedService<Producer>(provider =>
+            {
+                var config = provider.GetRequiredService<IConfiguration>();
+                return Producer.FromConfig(config);
+            })
+            .AddHostedService<Consumer>()
             .AddHostedService<Collector>(provider =>
             {
-                var text = "";
-                if (args.Length > 0)
-                {
-                    text = args[0];
-                }
-
-                if (string.IsNullOrEmpty(text))
-                {
-                    var config = provider.GetRequiredService<IConfiguration>();
-                    return Collector.FromConfig(config);
-                }
-                else
-                {
-                    var props = new Collector.Props
-                    {
-                        text = text,
-                    };
-                    return new Collector(props);
-                }
+                // .env
+                var config = provider.GetRequiredService<IConfiguration>();
+                return Collector.FromConfig(config);
             });
     })
     .UseConsoleLifetime()
