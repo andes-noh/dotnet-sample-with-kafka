@@ -2,24 +2,37 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using GeneralProducer.Handlers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace GeneralConsumer.Handlers
 {
-    public class Consumer
+    public class Consumer : BackgroundService
     {
-        public string _revTopic = "";
-
-        public Consumer(string topic)
+        public class Props
         {
-            _revTopic = topic;
+            public string? _subTopic { get; init; }
         }
 
-        public Consumer() { }
+        private readonly Props _props;
+        public string _revTopic = "";
+
+        public Consumer(Props props)
+        {
+            _props = props;
+        }
+
+        public static Consumer FromConfig(IConfiguration config)
+        {
+            var props = new Props
+            {
+                _subTopic = config["TOPIC"],
+            };
+            return new Consumer(props);
+        }
 
         public void ConsumerRun(CancellationToken cancellationToken)
         {
-            var _producer = new Producer();
             var conf = new ConsumerConfig
             {
                 //
@@ -49,9 +62,8 @@ namespace GeneralConsumer.Handlers
             }
         }
 
-        public Task startKafka(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //
             Task.Run(() => ConsumerRun(stoppingToken));
             return Task.CompletedTask;
         }

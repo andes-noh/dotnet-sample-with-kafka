@@ -31,12 +31,18 @@ using IHost host = Host
 
             // })
             .AddHttpClient()
+            //kafka producer
             .AddHostedService<Producer>(provider =>
             {
                 var config = provider.GetRequiredService<IConfiguration>();
                 return Producer.FromConfig(config);
             })
-            .AddHostedService<Consumer>()
+            //kafka consumer
+            .AddHostedService<Consumer>(provider =>
+            {
+                var config = provider.GetRequiredService<IConfiguration>();
+                return Consumer.FromConfig(config);
+            })
             .AddHostedService<Collector>(provider =>
             {
                 // .env

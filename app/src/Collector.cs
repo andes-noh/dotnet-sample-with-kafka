@@ -41,6 +41,7 @@ public class Collector : BackgroundService
         // func
         // loop
         // Task.Run(() => HelloWorld(stoppingToken, _props.text));
+        Console.WriteLine($"Hello Collector");
         return Task.CompletedTask;
     }
 

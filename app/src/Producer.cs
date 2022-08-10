@@ -12,7 +12,6 @@ namespace GeneralProducer.Handlers
         public class Props
         {
             public string? _pubTopic { get; init; }
-            public string? _pubMsg { get; init; }
         }
 
         private readonly Props _props;
@@ -33,7 +32,6 @@ namespace GeneralProducer.Handlers
         {
             var props = new Props
             {
-                _pubServer = config["PUB_SERVER"],
                 _pubTopic = config["TOPIC"]
             };
             return new Producer(props);
@@ -59,12 +57,13 @@ namespace GeneralProducer.Handlers
             return null;
         }
 
-        public void HelloWorld(CancellationToken cancellationToken, string topic, string server)
+        public void HelloWorld(CancellationToken cancellationToken, string topic)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                SendToKafka(topic, ser)
-                Console.WriteLine($"Sample Project: {text}");
+                SendToKafka(topic, "hello kafka world");
+                Console.WriteLine($"Sample Project");
+                Thread.Sleep(1000);
             }
         }
 
@@ -72,7 +71,7 @@ namespace GeneralProducer.Handlers
         {
             // func
             // loop
-            Task.Run(() => HelloWorld(stoppingToken, _props._pubTopic, _props._pubServer));
+            Task.Run(() => HelloWorld(stoppingToken, _props._pubTopic));
             return Task.CompletedTask;
         }
     }
