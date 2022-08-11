@@ -2,9 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dotenv.net;
-
-
-using sample;
 using GeneralProducer.Handlers;
 using GeneralConsumer.Handlers;
 
@@ -42,13 +39,13 @@ using IHost host = Host
             {
                 var config = provider.GetRequiredService<IConfiguration>();
                 return Consumer.FromConfig(config);
-            })
-            .AddHostedService<Collector>(provider =>
-            {
-                // .env
-                var config = provider.GetRequiredService<IConfiguration>();
-                return Collector.FromConfig(config);
             });
+        // .AddHostedService<Collector>(provider =>
+        // {
+        //     // .env
+        //     var config = provider.GetRequiredService<IConfiguration>();
+        //     return Collector.FromConfig(config);
+        // });
     })
     .UseConsoleLifetime()
     .Build();

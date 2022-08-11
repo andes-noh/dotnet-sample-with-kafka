@@ -62,7 +62,6 @@ namespace GeneralProducer.Handlers
             while (!cancellationToken.IsCancellationRequested)
             {
                 SendToKafka(topic, "hello kafka world");
-                Console.WriteLine($"Sample Project");
                 Thread.Sleep(1000);
             }
         }

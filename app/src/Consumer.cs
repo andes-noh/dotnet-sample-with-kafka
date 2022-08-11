@@ -42,7 +42,7 @@ namespace GeneralConsumer.Handlers
             };
             using (var builder = new ConsumerBuilder<Ignore, string>(conf).Build())
             {
-                builder.Subscribe(_revTopic);
+                builder.Subscribe(_props._subTopic);
                 var cancelToken = new CancellationTokenSource();
                 try
                 {
