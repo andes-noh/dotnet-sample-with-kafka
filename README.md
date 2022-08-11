@@ -1,6 +1,11 @@
-# dotnet-demo
+# dotnet-basic-with-kafka
 
 .NET Template Project
+
+producer: 매초 `hello kafka world` 메시지 발행
+consumer: `hello kafka world` 메시지 출력
+
+collector: BackgroundService로 `hello world` 한번 출력
 
 ## Setup
 
@@ -18,6 +23,12 @@ dotnet add test/test.csproj reference app/app.csproj
 dotnet new nugetconfig
 dotnet restore
 ```
+
+> [kafka 환경 준비 및 실행]
+
+-   하단 블로그 참조
+-   window: https://herojoon-dev.tistory.com/118
+-   mac: https://somjang.tistory.com/entry/Kafka-Mac에-카프카-설치하고-실행해보기
 
 ## 패키지 추가/제거
 
@@ -57,4 +68,3 @@ dotnet publish \
 -   [Dependency injection in .NET](https://docs.microsoft.com/ko-kr/dotnet/core/extensions/dependency-injection)
 -   [Create a Windows Service using BackgroundService](https://docs.microsoft.com/ko-kr/dotnet/core/extensions/windows-service)
 -   [dotenv.net](https://github.com/bolorundurowb/dotenv.net)
--   [Akka.NET](https://getakka.net/)
