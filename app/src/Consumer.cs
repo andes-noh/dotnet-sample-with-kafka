@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -62,8 +63,28 @@ namespace GeneralConsumer.Handlers
             }
         }
 
+        static async Task CreateTopicAsync(string bootstrapServers, string topicName)
+        {
+            using (var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = bootstrapServers }).Build())
+            {
+                try
+                {
+                    await adminClient.CreateTopicsAsync(new TopicSpecification[] {
+                    new TopicSpecification { Name = topicName, ReplicationFactor = 1, NumPartitions = 1 } });
+                }
+                catch (CreateTopicsException e)
+                {
+                    Console.WriteLine($"An error occured creating topic {e.Results[0].Topic}: {e.Results[0].Error.Reason}");
+                }
+            }
+        }
+
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            // create topic
+            // if topic is exist, throw exception
+            // if topic isn`t exist, make a topic
+            CreateTopicAsync("localhost:9092", _props._subTopic);
             Task.Run(() => ConsumerRun(stoppingToken));
             return Task.CompletedTask;
         }
