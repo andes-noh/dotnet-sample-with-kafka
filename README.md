@@ -1,11 +1,28 @@
 # dotnet-basic-with-kafka
 
-.NET Template Project
+## .NET Template kafka sample Project - summary
 
-producer: 매초 `hello kafka world` 메시지 발행
-consumer: `hello kafka world` 메시지 출력
+local PC:
 
-collector: BackgroundService로 `hello world` 한번 출력
+-   zookeeper, server 실행
+    ![setting](./kaf.png)
+
+bootstrapServer:
+
+-   `localhost:9092` default
+
+producer:
+
+-   매초 `hello kafka world` 메시지 발행
+
+consumer:
+
+-   자동 토픽 생성 기능 추가 - 22.08.17
+-   `hello kafka world` 메시지 출력
+
+collector:
+
+-   BackgroundService로 `hello world` 한번 출력
 
 ## Setup
 
