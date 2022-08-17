@@ -28,18 +28,20 @@ using IHost host = Host
 
             // })
             .AddHttpClient()
-            //kafka producer
-            .AddHostedService<Producer>(provider =>
-            {
-                var config = provider.GetRequiredService<IConfiguration>();
-                return Producer.FromConfig(config);
-            })
             //kafka consumer
             .AddHostedService<Consumer>(provider =>
             {
                 var config = provider.GetRequiredService<IConfiguration>();
                 return Consumer.FromConfig(config);
+            })
+            //kafka producer
+
+            .AddHostedService<Producer>(provider =>
+            {
+                var config = provider.GetRequiredService<IConfiguration>();
+                return Producer.FromConfig(config);
             });
+
         // .AddHostedService<Collector>(provider =>
         // {
         //     // .env

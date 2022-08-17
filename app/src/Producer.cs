@@ -68,6 +68,7 @@ namespace GeneralProducer.Handlers
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+
             // func
             // loop
             Task.Run(() => HelloWorld(stoppingToken, _props._pubTopic));
